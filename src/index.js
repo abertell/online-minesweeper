@@ -154,17 +154,17 @@ class Game extends React.Component {
         <div className="user-info">
           <form onSubmit={this.handleSubmit}>
             <label>
-              Username:
+              Username: 
               <input type="text" value={this.state.user} onChange={this.updateUser} />
             </label>
             <br></br>
             <label>
-              Password:
+              Password: 
               <input type="text" value={this.state.pwd} onChange={this.updatePwd} />
             </label>
             <br></br>
             <label>
-              Room ID:
+              Room ID: 
               <input type="text" value={this.state.id} onChange={this.updateID} />
             </label>
             <input type="submit" value="Submit" />
