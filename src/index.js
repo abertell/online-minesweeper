@@ -78,13 +78,13 @@ class Game extends React.Component {
   }
 
   updateUser(e) {
-    if (this.state.alive == 2) {
+    if (this.state.alive === 2) {
       this.setState({user: e.target.value});
     }
   }
 
   updatePwd(e) {
-    if (this.state.alive == 2) {
+    if (this.state.alive === 2) {
       this.setState({pwd: e.target.value});
     }
   }
@@ -95,7 +95,7 @@ class Game extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.alive == 2){
+    if (this.state.alive === 2){
       this.request('RENAME|'+this.state.user+' '+this.state.pwd+'|');
     }
     this.request('JOIN ROOM|'+this.state.id+'|');
