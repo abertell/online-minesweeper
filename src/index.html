@@ -1,0 +1,21 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Multiplayer Minesweeper</title>
+  <meta name="description" content="Multiplayer Minesweeper">
+  <meta name="author" content="abertell">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'index.css' %}">
+</head>
+
+<body>
+  <div id="game"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  {% load static %}
+  <script src="{% static 'index.js' %}" type="text/babel"></script>
+</body>
+</html>
