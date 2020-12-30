@@ -48,7 +48,7 @@ class Game extends React.Component {
     for (i=0;i<y;i++) {
       res.push([]);
       for (j=0;j<x;j++) {
-        let val=s[6+2*v+i*x+j];
+        let val=s[6+3*v+i*x+j];
         if (val==="-1") {
           val="▮";
         }
@@ -115,7 +115,7 @@ class Game extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.alive === 3){
-      const ws = new WebSocket("ws://"+this.state.ip);
+      const ws = new WebSocket("wss://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
       ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
       this.setState({server: ws});
