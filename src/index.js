@@ -16,7 +16,7 @@ class Game extends React.Component {
       pwd: "pwd",
       id: "roomID",
       ip: "localhost:8000",
-      alive: 2,
+      alive: 3,
       server: null,
     };
     console.log(this.state.server);
