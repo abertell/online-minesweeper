@@ -93,13 +93,13 @@ class Game extends React.Component {
   }
 
   updateUser(e) {
-    if (this.state.alive === 2) {
+    if (this.state.alive === 3) {
       this.setState({user: e.target.value});
     }
   }
 
   updatePwd(e) {
-    if (this.state.alive === 2) {
+    if (this.state.alive === 3) {
       this.setState({pwd: e.target.value});
     }
   }
@@ -114,7 +114,7 @@ class Game extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.alive === 2){
+    if (this.state.alive === 3){
       const ws = new WebSocket("ws://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
       ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
@@ -165,7 +165,7 @@ class Game extends React.Component {
           {this.renderBoard(this.state.boardData)}
         </div>
         <div className="game-info">
-          You are {["dead", "alive", "not started"][this.state.alive]}.
+          You are {["dead", "alive", "not in a room", "not connected"][this.state.alive]}.
           <br></br>
           Score: {this.state.score}
           <br></br>
