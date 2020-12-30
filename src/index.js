@@ -5,8 +5,6 @@ import './index.css';
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    const ws = new WebSocket("ws://ip");
-    ws.onmessage = (e) => this.request(e);
     this.state = {
       boardData: [[["!",0,-1]]],
       boardX: 0,
@@ -14,19 +12,19 @@ class Game extends React.Component {
       mines: 0,
       score: 0,
       strs: [],
-      user: "a",
-      pwd: "b",
-      id: "c",
+      user: "user",
+      pwd: "pwd",
+      id: "roomID",
+      ip: "localhost:8000",
       alive: 2,
-      server: ws,
+      server: null,
     };
     console.log(this.state.server);
     this.updateUser = this.updateUser.bind(this);
     this.updatePwd = this.updatePwd.bind(this);
     this.updateID = this.updateID.bind(this);
+    this.updateIP = this.updateIP.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.sendFlag = this.sendFlag.bind(this);
-    this.sendClick = this.sendClick.bind(this);
   }
 
   request(event) {
@@ -104,14 +102,19 @@ class Game extends React.Component {
     this.setState({id: e.target.value});
   }
 
+  updateIP(e) {
+    this.setState({ip: e.target.value});
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.alive === 2){
-      if (this.state.server.readyState === 1) {
-        this.state.server.send('RENAME|'+this.state.user+' '+this.state.pwd);
-      }
+      const ws = new WebSocket("ws://"+this.state.ip);
+      ws.onmessage = (e) => this.request(e);
+      ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
+      this.setState({server: ws});
     }
-    if (this.state.server.readyState === 1) {
+    else if (this.state.server.readyState === 1) {
       this.state.server.send('JOIN ROOM|'+this.state.id);
     }
   }
@@ -168,6 +171,11 @@ class Game extends React.Component {
         </div>
         <div className="user-info">
           <form onSubmit={this.handleSubmit}>
+            <label>
+              Server IP: 
+              <input type="text" value={this.state.ip} onChange={this.updateIP} />
+            </label>
+            <br></br>
             <label>
               Username: 
               <input type="text" value={this.state.user} onChange={this.updateUser} />
