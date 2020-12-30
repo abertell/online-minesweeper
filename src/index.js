@@ -5,6 +5,8 @@ import './index.css';
 class Game extends React.Component {
   constructor(props) {
     super(props);
+    const ws = new WebSocket("ws://ip");
+    ws.onmessage = (e) => this.request(e);
     this.state = {
       boardData: [[["!",0,-1]]],
       boardX: 0,
@@ -16,35 +18,31 @@ class Game extends React.Component {
       pwd: "b",
       id: "c",
       alive: 2,
+      server: ws,
     };
+    console.log(this.state.server);
     this.updateUser = this.updateUser.bind(this);
     this.updatePwd = this.updatePwd.bind(this);
     this.updateID = this.updateID.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendFlag = this.sendFlag.bind(this);
+    this.sendClick = this.sendClick.bind(this);
   }
 
-  request(msg) {
-    console.log(msg);
-    let x=3;
-    let y=3;
-    let m=this.state.mines+1;
-    let sc=this.state.user;
-    let stat=0;
-    let v=2;
-    //s=socketRead(msg).split(" ");
-    //let x=Number(s[0]);
-    //let y=Number(s[1]);
-    //let m=Number(s[2]);
-    //let sc=Number(s[3]);
-    //let stat=Number(s[4]);
-    //let v=Number(s[5]);
+  request(event) {
+    let s=event.data.split(" ");
+    let x=Number(s[0]);
+    let y=Number(s[1]);
+    let m=Number(s[2]);
+    let sc=Number(s[3]);
+    let stat=Number(s[4]);
+    let v=Number(s[5]);
     let strs = [];
     let i=0;
     for (i=0;i<v;i++){
-      //strs.push([]);
-      //strs[i].push([s[6+3*i],s[7+3*i],["DEAD","ALIVE"][Number(s[8+3*i])]]);
-      //strs[i].push(1000000000+i);
-      strs.push([["Bob","69","ALIVE"],1000000000+i]);
+      strs.push([]);
+      strs[i].push([s[6+3*i],s[7+3*i],["DEAD","ALIVE"][Number(s[8+3*i])]]);
+      strs[i].push(1000000000+i);
     }
     let res = [];
     i=0;
@@ -52,8 +50,17 @@ class Game extends React.Component {
     for (i=0;i<y;i++) {
       res.push([]);
       for (j=0;j<x;j++) {
-        //res[i].push([s[6+2*v+i*x+j],i,j]);
-        res[i].push(['X',i,j]);
+        let val=s[6+2*v+i*x+j];
+        if (val==="-1") {
+          val="▮";
+        }
+        else if (val==="0") {
+          val=" ";
+        }
+        else if (val==="F") {
+          val="►";
+        }
+        res[i].push([val,i,j]);
       }
     }
     this.setState({
@@ -68,12 +75,16 @@ class Game extends React.Component {
   }
 
   sendClick(x,y) {
-    this.request('MOVE|'+x+' '+y+'|');
+    if (this.state.server.readyState === 1) {
+      this.state.server.send('MOVE|'+x+' '+y);
+    }
   }
 
   sendFlag(e,x,y) {
     e.preventDefault();
-    this.request('FLAG|'+x+' '+y+'|');
+    if (this.state.server.readyState === 1) {
+      this.state.server.send('FLAG|'+x+' '+y);
+    }
     return false;
   }
 
@@ -96,9 +107,13 @@ class Game extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.alive === 2){
-      this.request('RENAME|'+this.state.user+' '+this.state.pwd+'|');
+      if (this.state.server.readyState === 1) {
+        this.state.server.send('RENAME|'+this.state.user+' '+this.state.pwd);
+      }
     }
-    this.request('JOIN ROOM|'+this.state.id+'|');
+    if (this.state.server.readyState === 1) {
+      this.state.server.send('JOIN ROOM|'+this.state.id);
+    }
   }
 
   renderRow(datarow) {
