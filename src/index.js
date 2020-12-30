@@ -58,6 +58,12 @@ class Game extends React.Component {
         else if (val==="F") {
           val="►";
         }
+        else if (val==="G") {
+          val="▷";
+        }
+        else if (val==="M") {
+          val="X";
+        }
         res[i].push([val,i,j]);
       }
     }
