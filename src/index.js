@@ -242,7 +242,7 @@ class Game extends React.Component {
             </label>
             <br></br>
             <label>
-              Width:
+              Mines:
               <input type="text" value={this.state.reqMines} onChange={this.updateReqMines} />
             </label>
             <input type="submit" value="Create" />
