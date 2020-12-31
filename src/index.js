@@ -13,7 +13,7 @@ class Game extends React.Component {
       score: 0,
       strs: [],
       user: "user",
-      pwd: "pwd",
+      pwd: "",
       id: "roomID",
       ip: "localhost:8000",
       alive: 3,
@@ -151,7 +151,7 @@ class Game extends React.Component {
   makeRoom(e) {
     e.preventDefault();
     if (this.state.server !== null && this.state.server.readyState === 1) {
-      this.state.server.send('CREATE ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
+      this.state.server.send('CREATE ROOM|'+this.state.reqY+' '+this.state.reqX+' '+this.state.reqMines);
     }
   }
 
@@ -219,7 +219,7 @@ class Game extends React.Component {
             <br></br>
             <label>
               Password: 
-              <input type="text" value={this.state.pwd} onChange={this.updatePwd} />
+              <input type="password" value={this.state.pwd} onChange={this.updatePwd} />
             </label>
             <br></br>
             <label>
