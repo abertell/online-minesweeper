@@ -72,7 +72,7 @@ class Game extends React.Component {
           val="△";
         }
         else if (val==="M") {
-          val="💣";
+          val="X";
         }
         res[i].push([val,i,j]);
       }
