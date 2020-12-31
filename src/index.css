@@ -38,6 +38,12 @@ body {
 
 .user-info {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 20px;
+  right: 10px;
+}
+
+.new-room {
+  position: fixed;
+  top: 150px;
+  right: 30px;
 }

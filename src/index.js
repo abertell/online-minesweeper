@@ -6,7 +6,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      boardData: [[["!",0,-1]]],
+      boardData: [[[]]],
       boardX: 0,
       boardY: 0,
       mines: 0,
@@ -18,28 +18,38 @@ class Game extends React.Component {
       ip: "localhost:8000",
       alive: 3,
       server: null,
+      reqX: 30,
+      reqY: 24,
+      reqMines: 180,
+      newID: "-",
     };
     console.log(this.state.server);
     this.updateUser = this.updateUser.bind(this);
     this.updatePwd = this.updatePwd.bind(this);
     this.updateID = this.updateID.bind(this);
     this.updateIP = this.updateIP.bind(this);
+    this.updateReqX = this.updateReqX.bind(this);
+    this.updateReqY = this.updateReqY.bind(this);
+    this.updateReqMines = this.updateReqMines.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.makeRoom = this.makeRoom.bind(this);
   }
 
   request(event) {
     let s=event.data.split(" ");
-    let x=Number(s[0]);
-    let y=Number(s[1]);
-    let m=Number(s[2]);
-    let sc=Number(s[3]);
-    let stat=Number(s[4]);
-    let v=Number(s[5]);
+    let newid=s[0];
+    let x=Number(s[1]);
+    let y=Number(s[2]);
+    let m=Number(s[3]);
+    let sc=Number(s[4]);
+    let stat=Number(s[5]);
+    let v=Number(s[6]);
+    let prefix = 7;
     let strs = [];
     let i=0;
     for (i=0;i<v;i++){
       strs.push([]);
-      strs[i].push([s[6+3*i],s[7+3*i],["DEAD","ALIVE"][Number(s[8+3*i])]]);
+      strs[i].push([s[prefix+3*i],s[prefix+1+3*i],["DEAD","ALIVE"][Number(s[prefix+2+3*i])]]);
       strs[i].push(1000000000+i);
     }
     let res = [];
@@ -48,7 +58,7 @@ class Game extends React.Component {
     for (i=0;i<y;i++) {
       res.push([]);
       for (j=0;j<x;j++) {
-        let val=s[6+3*v+i*x+j];
+        let val=s[prefix+3*v+i*x+j];
         if (val==="-1") {
           val="▮";
         }
@@ -56,13 +66,13 @@ class Game extends React.Component {
           val=" ";
         }
         else if (val==="F") {
-          val="►";
+          val="🔺";
         }
         else if (val==="G") {
-          val="▷";
+          val="△";
         }
         else if (val==="M") {
-          val="X";
+          val="💣";
         }
         res[i].push([val,i,j]);
       }
@@ -75,18 +85,19 @@ class Game extends React.Component {
       score: sc,
       strs: strs,
       alive: stat,
+      newID: newid,
     });
   }
 
   sendClick(x,y) {
-    if (this.state.server.readyState === 1) {
+    if (this.state.server !== null && this.state.server.readyState === 1) {
       this.state.server.send('MOVE|'+x+' '+y);
     }
   }
 
   sendFlag(e,x,y) {
     e.preventDefault();
-    if (this.state.server.readyState === 1) {
+    if (this.state.server !== null && this.state.server.readyState === 1) {
       this.state.server.send('FLAG|'+x+' '+y);
     }
     return false;
@@ -112,16 +123,35 @@ class Game extends React.Component {
     this.setState({ip: e.target.value});
   }
 
+  updateReqX(e) {
+    this.setState({reqX: e.target.value});
+  }
+
+  updateReqY(e) {
+    this.setState({reqY: e.target.value});
+  }
+
+  updateReqMines(e) {
+    this.setState({reqMines: e.target.value});
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.alive === 3){
-      const ws = new WebSocket("wss://"+this.state.ip);
+      const ws = new WebSocket("ws://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
       ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
       this.setState({server: ws});
     }
-    else if (this.state.server.readyState === 1) {
+    else if (this.state.server !== null && this.state.server.readyState === 1) {
       this.state.server.send('JOIN ROOM|'+this.state.id);
+    }
+  }
+
+  makeRoom(e) {
+    e.preventDefault();
+    if (this.state.server !== null && this.state.server.readyState === 1) {
+      this.state.server.send('CREATE ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
     }
   }
 
@@ -198,6 +228,27 @@ class Game extends React.Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
+        </div>
+        <div className="new-room">
+          <form onSubmit={this.makeRoom}>
+            <label>
+              Width:
+              <input type="text" value={this.state.reqX} onChange={this.updateReqX} />
+            </label>
+            <br></br>
+            <label>
+              Height:
+              <input type="text" value={this.state.reqY} onChange={this.updateReqY} />
+            </label>
+            <br></br>
+            <label>
+              Width:
+              <input type="text" value={this.state.reqMines} onChange={this.updateReqMines} />
+            </label>
+            <input type="submit" value="Create" />
+          </form>
+          <br></br>
+          Room ID: {this.state.newID}
         </div>
       </div>
     );
