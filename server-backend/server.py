@@ -2,7 +2,6 @@ import asyncio
 import websockets
 import threading
 from game import ServerGame, Empty
-from wrapper import MySocket
 from database import db_store, db_add
 from room import make_room, ServerRoom
 from log_in import login
