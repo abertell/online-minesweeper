@@ -30,7 +30,7 @@ def perf_calc(user):
     for width, height in sizes:
         with con:
             request = f"SELECT score FROM GAMES WHERE NAME = ? AND (WIDTH = {width} AND HEIGHT = {height} OR WIDTH = {height} AND HEIGHT = {width})"
-            data = list(map(lambda x: int(x[0]),con.execute(request,[user])))
+            data = list(map(lambda x: float(x[0]),con.execute(request,[user])))
             data.sort()
 
             top.append(data[-1] if data else 0)
@@ -61,7 +61,7 @@ def perf_calc(user):
 
     with con:
         request = f"SELECT score FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
-        data = list(map(lambda x: int(x[0]),con.execute(request,[user])))
+        data = list(map(lambda x: float(x[0]),con.execute(request,[user])))
         data.sort()
 
     pp_all = 0
@@ -92,6 +92,10 @@ def pp_recalc():
 
     con.commit()
     con.close()
+
+def r_float(num):
+    fl = float(num)
+    return f"{fl:.3f}"
     
 def get_data(user):
     con = sl.connect(database)
@@ -104,15 +108,16 @@ def get_data(user):
             request = f"SELECT pp FROM {table} WHERE NAME = ?"
             data = list(con.execute(request, [user]))
 
-            pps.append(int(data[0][0]))
+            pps.append(r_float(data[0][0]))
 
     with con:
         request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
         data = con.execute(request,[user])
         data_parse = []
         for row in data:
-            data_parse.append(list(map(int, row)))
+            data_parse.append(list(map(float, row)))
         data_parse.sort(key = lambda x: -x[3])
+    data_parse = [list(map(r_float, row)) for row in data_parse]
 
     print(pps, data_parse)
     

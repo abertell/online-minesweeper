@@ -79,7 +79,7 @@ async def interact(sock, path):
             ret_string = get_data(user)
             print(ret_string)
             
-            sock.send(ret_string)
+            await sock.send(ret_string)
             continue
             
         game_string = game.rep()

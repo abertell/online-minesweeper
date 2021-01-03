@@ -1,6 +1,7 @@
 import random
 import time
 from database import db_add
+from perf_calc import pp
 
 class Game:
     dX = [1,1,1,0,0,-1,-1,-1]
@@ -141,6 +142,9 @@ class Game:
 
         game_string = f'{w} {h} {m} {score} {state} {players} {board}'
         return game_string
+
+    def value(self):
+        return pp(self.mines, self.width, self.height, self.rev_count)
 
 class ServerGame(Game):  
     def __init__(self, height, width, mines, player):

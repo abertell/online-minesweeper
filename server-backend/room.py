@@ -46,13 +46,14 @@ class ServerRoom:
         rest = []
         for player in self.player_games:
             game = self.player_games[player]
-            rest.append((player, game.rev_count, 0 if game.finished else 1))
+            rest.append((player, game.rev_count, 0 if game.finished else 1, game.value()))
         rest.sort(key = lambda x: (x[1], x[2]), reverse = True)
 
-        for a,b,c in rest:
+        for a,b,c,d in rest:
             outL.append(a)
             outL.append(b)
             outL.append(c)
+            outL.append(d)
 
         print(outL)
         return ' '.join(map(str,outL))
