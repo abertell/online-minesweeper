@@ -53,7 +53,7 @@ class ServerRoom:
             outL.append(a)
             outL.append(b)
             outL.append(c)
-            outL.append(d)
+            outL.append(f"{d:0.3f}")
 
         print(outL)
         return ' '.join(map(str,outL))
