@@ -6,13 +6,16 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alive = 0,
-      pp = [NaN,NaN,NaN,NaN],
+      alive: 0,
+      pp: [NaN,NaN,NaN,NaN],
       strs: [],
       user: "user",
       server: null,
       ip: "www.minesweeperme.me:8020",
     };
+    this.updateUser = this.updateUser.bind(this);
+    this.updateIP = this.updateIP.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   request(event) {
@@ -26,7 +29,6 @@ class Game extends React.Component {
     }
     this.setState({
       strs: arr,
-      alive: 1,
       pp: pps,
     });
   }
@@ -44,7 +46,7 @@ class Game extends React.Component {
     if (this.state.alive === 0){
       const ws = new WebSocket("ws://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
-      ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
+      ws.onopen = () => this.setState({alive: 1});
       this.setState({server: ws});
     }
     else if (this.state.server !== null && this.state.server.readyState === 1) {
@@ -55,7 +57,7 @@ class Game extends React.Component {
   renderStats(strs) {
     return strs.map((str) => {
       return (
-        <p key={str[3]}>{str[3]+' pp | Board: '+str[0]+'x'+str[1]+', '+str[2]+' mines | Density: '+str[2]/(str[0]*str[1])+' | Completion: '+str[4]/(str[0]*str[1]-str[2])}%</p>
+        <p key={str[3]}>{str[3]+' pp | Board: '+str[0]+'x'+str[1]+', '+str[2]+' mines | Density: '+str[2]/(str[0]*str[1])+' | Completion: '+(100*str[4]/(str[0]*str[1]-str[2])).toFixed(2)}%</p>
       );
     });
   }
@@ -66,10 +68,10 @@ class Game extends React.Component {
         <div className="leaderboard">
           <h2>Player Stats</h2>
           <p>Sum of best: {this.state.pp[0]}</p>
-          <p>Weighted sum of best 10: {this.state.pp[1]}</p>
+          <p>Sum of best 10: {this.state.pp[1]}</p>
           <p>Sum of all PPs: {this.state.pp[2]}</p>
           <p>PPv2: {this.state.pp[3]}</p>
-          {this.renderLeader(this.state.strs)}
+          {this.renderStats(this.state.strs)}
         </div>
         <div className="user-info">
           <form onSubmit={this.handleSubmit}>
