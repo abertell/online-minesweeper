@@ -68,7 +68,7 @@ class Game extends React.Component {
         <div className="leaderboard">
           <h2>Player Stats</h2>
           <p>Sum of best: {this.state.pp[0]}</p>
-          <p>Weighted sum of best 10: {this.state.pp[1]}</p>
+          <p>Sum of best 10: {this.state.pp[1]}</p>
           <p>Sum of all PPs: {this.state.pp[2]}</p>
           <p>PPv2: {this.state.pp[3]}</p>
           {this.renderStats(this.state.strs)}
