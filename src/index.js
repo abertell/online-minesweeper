@@ -49,7 +49,7 @@ class Game extends React.Component {
     let i=0;
     for (i=0;i<v;i++){
       strs.push([]);
-      strs[i].push([s[prefix+3*i],s[prefix+1+3*i],["DEAD","ALIVE"][Number(s[prefix+2+3*i])]]);
+      strs[i].push([s[prefix+3*i],s[prefix+1+3*i],["DEAD","ALIVE","WON"][Number(s[prefix+2+3*i])]]);
       strs[i].push(1000000000+i);
     }
     let res = [];
@@ -151,7 +151,7 @@ class Game extends React.Component {
   makeRoom(e) {
     e.preventDefault();
     if (this.state.server !== null && this.state.server.readyState === 1) {
-      this.state.server.send('CREATE ROOM|'+this.state.reqY+' '+this.state.reqX+' '+this.state.reqMines);
+      this.state.server.send('CREATE ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
     }
   }
 
