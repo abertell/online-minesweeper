@@ -1,6 +1,6 @@
 import sqlite3 as sl
 from time import sleep
-from perf_calc import perf_calc
+from perf_calc import perf_calc, pp
 
 games = []
 database = 'minesweeper.db'
@@ -12,7 +12,7 @@ def db_store():
     global games
 
     while True:
-        sleep(60)
+        sleep(10)
         print('Storing Data')
 
         data = []
@@ -23,7 +23,10 @@ def db_store():
             assert game.finished
 
             user_upd.add(game.player)
-            data.append((game.player, game.width, game.height, game.mines, game.mines if game.won else 0, game.width * game.height - game.mines - game.rev_count, game.end_time - game.start_time))
+
+            score = pp(game.mines, game.width, game.height, game.rev_count)
+            
+            data.append((game.player, game.width, game.height, game.mines, score, game.rev_count, game.end_time - game.start_time))
             count += 1
 
         sql = 'INSERT INTO GAMES (name, width, height, mines, score, remain, time) values (?, ?, ?, ?, ?, ?, ?)'
