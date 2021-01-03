@@ -1,4 +1,3 @@
-<<<<<<< HEAD:app1/src/index.css
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
@@ -47,54 +46,4 @@ body {
   position: fixed;
   top: 150px;
   right: 30px;
-=======
-body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
-}
-
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
-}
-
-.game {
-  position: fixed;
-  top: 20px;
-  left: 200px;
-}
-
-.game-info {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-}
-
-.leaderboard {
-  position: fixed;
-  top: 100px;
-  left: 20px;
-}
-
-.user-info {
-  position: fixed;
-  top: 20px;
-  right: 10px;
-}
-
-.new-room {
-  position: fixed;
-  top: 150px;
-  right: 30px;
->>>>>>> 74e0fe7228c019e463541cc7da630021078b3d38:src/index.css
 }
