@@ -137,6 +137,8 @@ class Game:
                       
         board = ' '.join(' '.join(line) for line in repr_board)
 
+        print(w, h, m, score, state, players, board)
+
         game_string = f'{w} {h} {m} {score} {state} {players} {board}'
         return game_string
 
