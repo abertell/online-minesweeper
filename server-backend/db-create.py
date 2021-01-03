@@ -60,4 +60,11 @@ with con:
             TOTAL REAL
         );
     """)
+
+    con.execute("""
+        CREATE TABLE PERFORMANCE_ALL (
+            name TEXT NOT NULL PRIMARY KEY,
+            pp REAL
+        );
+    """)
         
