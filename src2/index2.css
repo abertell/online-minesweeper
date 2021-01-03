@@ -1,0 +1,16 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+.leaderboard {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+.user-info {
+  position: fixed;
+  top: 20px;
+  right: 10px;
+}
