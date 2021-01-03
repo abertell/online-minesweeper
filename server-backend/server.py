@@ -5,6 +5,7 @@ from game import ServerGame, Empty
 from database import db_store, db_add
 from room import make_room, ServerRoom
 from log_in import login
+from perf_calc import get_data
 
 rooms = dict()
 
@@ -72,6 +73,14 @@ async def interact(sock, path):
             game = rooms[room_id].join_room(player)
             x,y = game.height//2,game.width//2
             l = game.reveal(x,y)
+
+        if head == 'DATABASE':
+            user = cont.strip()
+            ret_string = get_data(user)
+            print(ret_string)
+            
+            sock.send(ret_string)
+            continue
             
         game_string = game.rep()
         await sock.send(new_id + ' ' + game_string)

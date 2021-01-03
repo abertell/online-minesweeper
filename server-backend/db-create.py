@@ -33,7 +33,7 @@ with con:
             `16_BY_16` REAL,
             `16_BY_30` REAL,
             `24_BY_30` REAL,
-            TOTAL REAL
+            pp REAL
         );
     """)
 
@@ -45,7 +45,7 @@ with con:
             `16_BY_16` REAL,
             `16_BY_30` REAL,
             `24_BY_30` REAL,
-            TOTAL REAL
+            pp REAL
         );
     """)
 
@@ -57,7 +57,7 @@ with con:
             `16_BY_16` REAL,
             `16_BY_30` REAL,
             `24_BY_30` REAL,
-            TOTAL REAL
+            pp REAL
         );
     """)
 

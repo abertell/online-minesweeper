@@ -3,7 +3,7 @@ from math import log
 
 def pp(m,w,h,x):
     a = w * h
-    return ((4.22*log(106+a)-16.8)**(m/a)-1)*100*(0.5)**((a-m-8)/(x-8)-1)
+    return ((4.22*log(106+a)-16.8)**(m/a)-1)*100*(0.9)**(x<a-m)*(0.5)**((a-m-8)/(x-8)-1)
 
 database = 'minesweeper.db'
 
@@ -45,7 +45,7 @@ def perf_calc(user):
 
     print(user,top,top_10,pp)
 
-    size_names = [f'`{width}_BY_{height}`' for width,height in sizes] + ["TOTAL"]
+    size_names = [f'`{width}_BY_{height}`' for width,height in sizes] + ["pp"]
 
     for table, values in (('PERFORMANCE_TOP',top), ('PERFORMANCE_TOP_10',top_10), ('PERFORMANCE_PP',pp)):
         v_ins = tuple(values + [sum(values)])
@@ -93,6 +93,29 @@ def pp_recalc():
     con.commit()
     con.close()
     
+def get_data(user):
+    con = sl.connect(database)
+    
+    pps = []
+    scores = []
 
+    for table in ('PERFORMANCE_TOP', 'PERFORMANCE_TOP_10', 'PERFORMANCE_PP', 'PERFORMANCE_ALL'):
+        with con:
+            request = f"SELECT pp FROM {table} WHERE NAME = ?"
+            data = list(con.execute(request, [user]))
+
+            pps.append(int(data[0][0]))
+
+    with con:
+        request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
+        data = con.execute(request,[user])
+        data_parse = []
+        for row in data:
+            data_parse.append(list(map(int, row)))
+        data_parse.sort(key = lambda x: -x[3])
+
+    print(pps, data_parse)
     
-    
+    return ' '.join(map(str,pps)) + ' ' + str(len(data_parse)) + ' ' + ' '.join(' '.join(map(str, line)) for line in data_parse)
+
+        
