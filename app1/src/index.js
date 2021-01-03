@@ -49,7 +49,9 @@ class Game extends React.Component {
     let strs = [];
     let i=0;
     for (i=0;i<v;i++){
-      strs.push([s[pre+len*i],s[pre+1+len*i],["DEAD","ALIVE","WON"][Number(s[pre+2+len*i])],s[pre+3+len*i]]);
+      strs.push([]);
+      strs[i].push([s[pre+len*i],s[pre+1+len*i],["DEAD","ALIVE","WON"][Number(s[pre+2+len*i])],s[pre+3+len*i]]);
+      strs[i].push(1000000000+i);
     }
     let res = [];
     i=0;
@@ -182,7 +184,7 @@ class Game extends React.Component {
   renderLeader(strs) {
     return strs.map((str) => {
       return (
-        <p key={str[3]}>{str[0]+': '+str[1]+' | '+str[2]+' | '+str[3]+'pp'}</p>
+        <p key={str[1]}>{str[0][0]+': '+str[0][1]+' | '+str[0][2]+' | '+str[0][3]+'pp'}</p>
       );
     });
   }
