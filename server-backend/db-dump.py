@@ -10,3 +10,4 @@ for table in ('GAMES','PERFORMANCE_TOP','PERFORMANCE_TOP_10','PERFORMANCE_PP','P
         for row in data:
             print(row)
     print()
+
