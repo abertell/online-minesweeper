@@ -59,10 +59,10 @@ class ServerRoom:
         return ' '.join(map(str,outL))
 
     def verify(self):
-        if len(player_games) <= 1:
+        if len(self.player_games) <= 1:
             return True
 
-        for user in player_games:
+        for user in self.player_games:
             if not verify(user):
                 return False
 
