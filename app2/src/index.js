@@ -20,13 +20,13 @@ class Game extends React.Component {
 
   request(event) {
     let s=event.data.split(" ");
-    let pps=[s[0],s[1],s[2],s[3]];
-    let n=s[4];
+    let pps=[s[1],s[2],s[3],s[4]];
+    let n=s[5];
     let i=0;
     let arr=[];
     for (i=0;i<n;i++){
       arr.push([]);
-      arr[i].push([s[5*i+5],s[5*i+6],s[5*i+7],s[5*i+8],s[5*i+9]].map(Number));
+      arr[i].push([s[5*i+6],s[5*i+7],s[5*i+8],s[5*i+9],s[5*i+10]].map(Number));
       arr[i].push(1000000000+i);
     }
     this.setState({
