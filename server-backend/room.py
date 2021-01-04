@@ -1,5 +1,6 @@
 import random
 from game import RoomGame
+from verify import verify
 
 used_ids = set([''])
 CHARS = '1234567890QWERTYUIOPASDFGHJKLZXCVBNM'
@@ -56,6 +57,16 @@ class ServerRoom:
 
         print(outL)
         return ' '.join(map(str,outL))
+
+    def verify(self):
+        if len(player_games) <= 1:
+            return True
+
+        for user in player_games:
+            if not verify(user):
+                return False
+
+        return True
         
 
         

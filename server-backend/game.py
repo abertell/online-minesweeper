@@ -206,7 +206,7 @@ class RoomGame(Game):
     def finish(self):
         assert self.finished
         
-        if len(self.room.player_games) == 1:
+        if self.room.verify():
             db_add(self)
             
 
