@@ -22,6 +22,7 @@ class Game extends React.Component {
       reqY: 24,
       reqMines: 180,
       newID: "-",
+      top: [],
     };
     console.log(this.state.server);
     this.updateUser = this.updateUser.bind(this);
@@ -37,14 +38,31 @@ class Game extends React.Component {
 
   request(event) {
     let s=event.data.split(" ");
-    let newid=s[0];
-    let x=Number(s[1]);
-    let y=Number(s[2]);
-    let m=Number(s[3]);
-    let sc=Number(s[4]);
-    let stat=Number(s[5]);
-    let v=Number(s[6]);
-    let pre = 7;
+    if (s[0]==="Error") {
+      alert(s[1]);
+      return 1;
+    }
+    if (s[0]==="USER_LEADER_PPV2") {
+      let ll=s[1];
+      let i=0;
+      let arr=[];
+      for (i=0;i<ll;i++){
+        arr.push([]);
+        arr[i].push([s[2+2*i],s[3+2*i]]);
+        arr[i].push(2000000000+i);
+      }
+      this.setState({top: arr});
+      return 0;
+    }
+    else {
+    let newid=s[1];
+    let x=Number(s[2]);
+    let y=Number(s[3]);
+    let m=Number(s[4]);
+    let sc=Number(s[5]);
+    let stat=Number(s[6]);
+    let v=Number(s[7]);
+    let pre = 8;
     let len = 4;
     let strs = [];
     let i=0;
@@ -88,6 +106,7 @@ class Game extends React.Component {
       alive: stat,
       newID: newid,
     });
+  }
   }
 
   sendClick(x,y) {
@@ -141,18 +160,21 @@ class Game extends React.Component {
     if (this.state.alive === 4){
       const ws = new WebSocket("ws://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
-      ws.onopen = () => ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
+      ws.onopen = () => {
+        ws.send('RENAME|'+this.state.user+' '+this.state.pwd);
+        ws.send('USER_LEADER_PPV2|');
+      }
       this.setState({server: ws});
     }
     else if (this.state.server !== null && this.state.server.readyState === 1) {
-      this.state.server.send('JOIN ROOM|'+this.state.id);
+      this.state.server.send('JOIN_ROOM|'+this.state.id);
     }
   }
 
   makeRoom(e) {
     e.preventDefault();
     if (this.state.server !== null && this.state.server.readyState === 1) {
-      this.state.server.send('CREATE ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
+      this.state.server.send('CREATE_ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
     }
   }
 
@@ -185,6 +207,14 @@ class Game extends React.Component {
     return strs.map((str) => {
       return (
         <p key={str[1]}>{str[0][0]+': '+str[0][1]+' | '+str[0][2]+' | '+str[0][3]+'pp'}</p>
+      );
+    });
+  }
+
+  renderTop(strs) {
+    return strs.map((str) => {
+      return (
+        <p key={str[1]}>{str[0][0]+' | '+str[0][1]+'pp'}</p>
       );
     });
   }
@@ -250,6 +280,10 @@ class Game extends React.Component {
           </form>
           <br></br>
           Room ID: {this.state.newID}
+        </div>
+        <div className="top-players">
+          <h2>Player Rankings</h2>
+          {this.renderTop(this.state.top)}
         </div>
       </div>
     );
