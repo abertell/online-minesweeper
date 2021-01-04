@@ -2,6 +2,9 @@ import sqlite3 as sl
 from math import log
 
 def pp(m,w,h,x):
+    if 2 * m > w * h:
+        return 0
+    
     a = w * h
     return ((4.22*log(106+a)-16.8)**(m/a)-1)*100*(0.9)**(x<a-m)*(0.5)**((a-m-8)/(x-8)-1)
 
@@ -118,6 +121,7 @@ def get_data(user):
             data_parse.append(list(map(float, row)))
         data_parse.sort(key = lambda x: -x[3])
     data_parse = [list(map(r_float, row)) for row in data_parse]
+    data_parse = data_parse[:20]
 
     print(pps, data_parse)
     

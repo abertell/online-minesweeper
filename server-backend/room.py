@@ -15,7 +15,6 @@ def make_room(width, height, mines):
 
 class ServerRoom:
     def __init__(self, width, height, mines):
-        assert 3 * mines < 2 * height * width
         assert height * width - mines > 10
         
         self.width = width
