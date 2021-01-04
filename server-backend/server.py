@@ -5,7 +5,7 @@ from game import ServerGame, Empty
 from database import db_store, db_add
 from room import make_room, ServerRoom
 from log_in import login
-from perf_calc import get_data
+from perf_calc import get_data, get_ppv2_leader
 
 rooms = dict()
 
@@ -52,7 +52,7 @@ async def interact(sock, path):
             if game != None:
                 game.player = player
 
-        if head == 'CREATE ROOM':
+        if head == 'CREATE_ROOM':
             w,h,m = map(int, cont.split())
             
             room_id, room = make_room(w,h,m)
@@ -60,14 +60,14 @@ async def interact(sock, path):
 
             new_id = f'{room_id}'
 
-        if head == 'JOIN ROOM':
+        if head == 'JOIN_ROOM':
             if player == None:
-                await sock.send('PLAYER MUST HAVE ID TO JOIN ROOM')
+                await sock.send('ERROR PLAYER MUST HAVE ID TO JOIN ROOM')
                 continue
 
             room_id = cont
             if room_id not in rooms:
-                await sock.send('ROOM ID DOES NOT EXIST')
+                await sock.send('ERROR ROOM ID DOES NOT EXIST')
                 continue
 
             game = rooms[room_id].join_room(player)
@@ -79,11 +79,17 @@ async def interact(sock, path):
             ret_string = get_data(user)
             print(ret_string)
             
-            await sock.send(ret_string)
+            await sock.send(head + ' ' + ret_string)
+            continue
+
+        if head == 'USER_LEADER_PPV2':
+            ret_string = get_ppv2_leader()
+
+            await sock.send(head + ' ' + ret_string)
             continue
             
         game_string = game.rep()
-        await sock.send(new_id + ' ' + game_string)
+        await sock.send(head + ' ' + new_id + ' ' + game_string)
        
                 
 idn_curr = 0

@@ -88,10 +88,13 @@ def pp_recalc():
     upd = []
 
     
-    for row in GAMES:
+    for row in data:
         print(row)
+        upd.append((pp(row[4], row[2], row[3], row[6]), row[0]))
 
-    
+    request = 'UPDATE GAMES SET score = ? where id = ?'
+
+    con.executemany(request, upd)
 
     con.commit()
     con.close()
@@ -115,16 +118,22 @@ def get_data(user):
 
     with con:
         request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
-        data = con.execute(request,[user])
-        data_parse = []
-        for row in data:
-            data_parse.append(list(map(float, row)))
-        data_parse.sort(key = lambda x: -x[3])
-    data_parse = [list(map(r_float, row)) for row in data_parse]
+        data = list(con.execute(request,[user]))
+        data.sort(key = lambda x: -x[3])
+    data_parse = [list(map(r_float, row)) for row in data]
     data_parse = data_parse[:20]
 
     print(pps, data_parse)
     
     return ' '.join(map(str,pps)) + ' ' + str(len(data_parse)) + ' ' + ' '.join(' '.join(map(str, line)) for line in data_parse)
 
-        
+def get_ppv2_leader():
+    con = sl.connect(database)
+
+    table = 'PERFORMANCE_ALL'
+    request = f"SELECT name, pp FROM {table} ORDER BY pp DESC LIMIT 20"
+    data = con.execute(request)
+
+    data_parse = [name + ' ' + r_float(pp) for name, pp in data]
+
+    return str(len(data_parse))+' '+' '.join(data_parse)
