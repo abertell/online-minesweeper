@@ -25,7 +25,9 @@ class Game extends React.Component {
     let i=0;
     let arr=[];
     for (i=0;i<n;i++){
-      arr.push([s[5*i+5],s[5*i+6],s[5*i+7],s[5*i+8],s[5*i+9]].map(Number));
+      arr.push([]);
+      arr[i].push([s[5*i+5],s[5*i+6],s[5*i+7],s[5*i+8],s[5*i+9]].map(Number));
+      arr[i].push(1000000000+i);
     }
     this.setState({
       strs: arr,
@@ -57,7 +59,7 @@ class Game extends React.Component {
   renderStats(strs) {
     return strs.map((str) => {
       return (
-        <p key={str[3]}>{str[3]+' pp | Board: '+str[0]+'x'+str[1]+', '+str[2]+' mines | Density: '+str[2]/(str[0]*str[1])+' | Completion: '+(100*str[4]/(str[0]*str[1]-str[2])).toFixed(2)}%</p>
+        <p key={str[1]}>{str[0][3]+' pp | Board: '+str[0][0]+'x'+str[0][1]+', '+str[0][2]+' mines | Density: '+(str[0][2]/(str[0][0]*str[0][1])).toFixed(2)+' | Completion: '+(100*str[0][4]/(str[0][0]*str[0][1]-str[0][2])).toFixed(2)}%</p>
       );
     });
   }
