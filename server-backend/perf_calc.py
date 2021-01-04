@@ -101,7 +101,7 @@ def pp_recalc():
 
 def r_float(num):
     if num == None:
-        return "None"
+        return "0.000"
     
     fl = float(num)
     return f"{fl:.3f}"
@@ -117,7 +117,7 @@ def get_data(user):
             request = f"SELECT pp FROM {table} WHERE NAME = ?"
             data = list(con.execute(request, [user]))
 
-            pps.append(r_float(data[0][0]))
+            pps.append(r_float(data[0][0] if len(data) > 0 else None))
 
     with con:
         request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
