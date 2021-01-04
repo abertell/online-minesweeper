@@ -108,8 +108,8 @@ class Game:
         m = self.mines - self.f_count
         score = self.rev_count
         
-        state = 1 if not self.finished else 0
-        if w == 0: state = 2
+        state = 1 if not self.finished else (2 if self.won else 0)
+        if w == 0: state = 3
         
         if self.room == None:
             players = '0'
@@ -217,6 +217,7 @@ class Empty(Game):
         self.mines = 0
 
         self.finished = True
+        self.won = False
 
         self.board = []
         self.flags = []
