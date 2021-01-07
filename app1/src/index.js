@@ -289,7 +289,7 @@ class Game extends React.Component {
           </form>
         </div>
         <div className="new-room">
-          <form onSubmit={this.makeRoomAndWait}>
+          <form onSubmit={this.makeRoom}>
             <label>
               Width:
               <input type="text" value={this.state.reqX} onChange={this.updateReqX} />
@@ -305,6 +305,8 @@ class Game extends React.Component {
               <input type="text" value={this.state.reqMines} onChange={this.updateReqMines} />
             </label>
             <input type="submit" value="Create" />
+			<form onSubmit={this.makeRoomAndWait}>
+            <input type="submit" value="Create and Join" />+-
           </form>
           <br></br>
           Room ID: {this.state.newID}
