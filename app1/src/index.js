@@ -79,7 +79,7 @@ class Game extends React.Component {
       for (j=0;j<x;j++) {
         let val=s[pre+4*v+i*x+j];
         if (val==="-1") {
-          val="▮";
+          val=".";
         }
         else if (val==="0") {
           val=" ";
@@ -180,10 +180,20 @@ class Game extends React.Component {
 
   renderRow(datarow) {
     return datarow.map((dataitem) => {
+      let color="white";
+      if (dataitem[0]==='.' || dataitem[0]==='🔺') {
+        color="black";
+      }
+      else if (dataitem[0]==='X') {
+        color="red";
+      }
+      else if (dataitem[0]==='△') {
+        color="grey";
+      }
       return (
         <button
           key={dataitem[2] * this.state.boardX + dataitem[1]}
-          className="square"
+          className={"square-"+color}
           onClick={() => this.sendClick(dataitem[1],dataitem[2])}
           onContextMenu={(e) => this.sendFlag(e,dataitem[1],dataitem[2])}
         >
