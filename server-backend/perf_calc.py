@@ -72,7 +72,7 @@ def perf_calc(user):
             con.execute(request,[user])
 
     with con:
-        request = f"SELECT score FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
+        request = f"SELECT score FROM GAMES WHERE NAME = ? AND ((WIDTH <= 1000 AND HEIGHT <= 1000) AND (WIDTH >= 8 AND HEIGHT >= 8))"
         data = list(map(lambda x: float(x[0]),con.execute(request,[user])))
         data.sort()
 
