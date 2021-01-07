@@ -41,7 +41,7 @@ def perf_calc(user):
     
     for width, height in sizes:
         with con:
-            request = f"SELECT score FROM GAMES WHERE NAME = ? AND (WIDTH = {width} AND HEIGHT = {height} OR WIDTH = {height} AND HEIGHT = {width})"
+            request = f"SELECT score FROM GAMES WHERE NAME = ? AND ((WIDTH = {width} AND HEIGHT = {height}) OR (WIDTH = {height} AND HEIGHT = {width}))"
             data = list(map(lambda x: float(x[0]),con.execute(request,[user])))
             data.sort()
 
@@ -133,7 +133,7 @@ def get_data(user):
             pps.append(r_float(data[0][0] if len(data) > 0 else None))
 
     with con:
-        request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
+        request = "SELECT width, height, mines, score, remain FROM GAMES WHERE NAME = ? AND ((WIDTH <= 1000 AND HEIGHT <= 1000) AND (WIDTH >= 8 AND HEIGHT >= 8))"
         data = list(con.execute(request,[user]))
         data.sort(key = lambda x: -x[3])
     data_parse = [list(map(r_float, row)) for row in data]
@@ -158,7 +158,7 @@ def get_top_plays():
     con = sl.connect(database)
     
     with con:
-        request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC LIMIT 20"
+        request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE ((WIDTH <= 1000 AND HEIGHT <= 1000) AND (WIDTH >= 8 AND HEIGHT >= 8)) ORDER BY score DESC LIMIT 20"
         data = list(con.execute(request))
     data_parse = [row[0:4] + list(map(r_float, row[4:])) for row in data]
     
