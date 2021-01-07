@@ -47,9 +47,13 @@ class Game:
         else:
             self.chord(x,y)
 
-    def reveal(self, x, y):
+    def reveal(self, x, y, depth = 0):
         assert 0 <= x < self.height
         assert 0 <= y < self.width
+
+        MAX_DEPTH = 200
+        if depth > MAX_DEPTH:
+            return []
 
         if self.flags[x][y]:
             return []
@@ -78,7 +82,7 @@ class Game:
                 xx = x + Game.dX[d]
                 yy = y + Game.dY[d]
                 if 0 <= xx < self.height and 0 <= yy < self.width:
-                    out += self.reveal(xx,yy)
+                    out += self.reveal(xx,yy,depth + 1)
 
         self.rev_count += 1
         if self.rev_count + self.mines == self.width * self.height:
