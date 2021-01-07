@@ -8,7 +8,7 @@ exp=lambda a:log(2,line(a))
 speed=lambda a:(log(log(log(a)))-log(log(log(64))))/2
 ramp=lambda m,a:exp(a)*((m/a)/exp(a))**(1+speed(a))
 base=lambda m,a:line(a)**ramp(m,a)-1
-ecc=lambda w,h:max(w/h,h/w)**.1
+ecc=lambda w,h:max(w/h,h/w)**.05
 cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
 dropoff=lambda m,a,x:.15**((a-m-8)/(x-8)-1)
 
