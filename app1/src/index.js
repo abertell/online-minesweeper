@@ -16,7 +16,7 @@ class Game extends React.Component {
       user: "user",
       pwd: "",
       id: "roomID",
-      ip: "localhost:8000",
+      ip: "www.minesweeperme.me:8020",
       alive: 4,
       server: null,
       reqX: 30,
