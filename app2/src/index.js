@@ -9,6 +9,7 @@ class Game extends React.Component {
       alive: 0,
       pp: [NaN,NaN,NaN,NaN],
       strs: [],
+      tops: [],
       user: "user",
       server: null,
       ip: "www.minesweeperme.me:8020",
@@ -20,6 +21,7 @@ class Game extends React.Component {
 
   request(event) {
     let s=event.data.split(" ");
+    if (s[0]==='DATABASE') {
     let pps=[s[1],s[2],s[3],s[4]];
     let n=s[5];
     let i=0;
@@ -33,6 +35,20 @@ class Game extends React.Component {
       strs: arr,
       pp: pps,
     });
+    }
+    else {
+    let n=s[1];
+    let i=0;
+    let arr=[];
+    for (i=0;i<n;i++){
+      arr.push([]);
+      arr[i].push([s[6*i+2],s[6*i+3],s[6*i+4],s[6*i+5],s[6*i+6],s[6*i+7]]);
+      arr[i].push(2000000000+i);
+    }
+    this.setState({
+      tops: arr
+    });
+    }
   }
 
   updateUser(e) {
@@ -48,7 +64,10 @@ class Game extends React.Component {
     if (this.state.alive === 0){
       const ws = new WebSocket("ws://"+this.state.ip);
       ws.onmessage = (e) => this.request(e);
-      ws.onopen = () => this.setState({alive: 1});
+      ws.onopen = () => {
+        this.setState({alive: 1});
+        ws.send('TOP_PP_PLAYS|');
+      }
       this.setState({server: ws});
     }
     else if (this.state.server !== null && this.state.server.readyState === 1) {
@@ -64,6 +83,14 @@ class Game extends React.Component {
     });
   }
 
+  renderTops(strs) {
+    return strs.map((str) => {
+      return (
+        <p key={str[1]}>{str[0][0]+' | '+str[0][4]+' pp | Board: '+str[0][1]+'x'+str[0][2]+', '+str[0][3]+' mines | Density: '+(Number(str[0][3])/(Number(str[0][1])*Number(str[0][2]))).toFixed(2)+' | Completion: '+(100*Number(str[0][5])/(Number(str[0][1])*Number(str[0][2])-Number(str[0][3]))).toFixed(2)}%</p>
+      );
+    });
+  }
+
   render() {
     return (
       <div className="game">
@@ -74,6 +101,10 @@ class Game extends React.Component {
           <p>Sum of all PPs: {this.state.pp[2]}</p>
           <p>PPv2: {this.state.pp[3]}</p>
           {this.renderStats(this.state.strs)}
+        </div>
+        <div className="top-plays">
+          <h2>Highest pp plays</h2>
+          {this.renderTops(this.state.tops)}
         </div>
         <div className="user-info">
           <form onSubmit={this.handleSubmit}>
