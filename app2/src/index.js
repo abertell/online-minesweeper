@@ -86,7 +86,7 @@ class Game extends React.Component {
   renderTops(strs) {
     return strs.map((str) => {
       return (
-        <p key={str[1]}>{str[0][0]+' | '+str[0][4]+' pp | Board: '+str[0][1]+'x'+str[0][2]+', '+str[0][3]+' mines | Density: '+(Number(str[0][3])/(Number(str[0][1])*Number(str[0][2]))).toFixed(2)+' | Completion: '+(100*Number(str[0][5])/(Number(str[0][1])*Number(str[0][2])-Number(str[0][3]))).toFixed(2)}%</p>
+        <p key={str[1]}>{str[0][4]+' pp | '+str[0][0]+' | Board: '+str[0][1]+'x'+str[0][2]+', '+str[0][3]+' mines | Density: '+(Number(str[0][3])/(Number(str[0][1])*Number(str[0][2]))).toFixed(2)+' | Completion: '+(100*Number(str[0][5])/(Number(str[0][1])*Number(str[0][2])-Number(str[0][3]))).toFixed(2)}%</p>
       );
     });
   }
