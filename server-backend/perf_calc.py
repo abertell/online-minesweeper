@@ -150,6 +150,8 @@ def get_ppv2_leader():
     return str(len(data_parse))+' '+' '.join(data_parse)
 
 def get_top_plays():
+    con = sl.connect(database)
+    
     with con:
         request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC LIMIT 20"
         data = list(con.execute(request))
