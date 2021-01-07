@@ -4,9 +4,11 @@ from math import log
 a,b,c=(5.553114322536428, 99.48036227829289, -23.426463583437233)
 norm=90
 line=lambda x:a*log(x+b)+c
-base=lambda m,a:line(a)**(m/a)-1
+exp=lambda a:log(2,line(a))
+ramp=lambda m,a:exp(a)*((m/a)/exp(a))**log(log(a))
+base=lambda m,a:line(a)**ramp(m,a)-1
 ecc=lambda w,h:max(w/h,h/w)**.1
-cutoff=lambda m,a,x:.9**(x<a-m)
+cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
 dropoff=lambda m,a,x:.15**((a-m-8)/(x-8)-1)
 
 def pp(m,w,h,x):
