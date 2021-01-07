@@ -5,7 +5,7 @@ from game import ServerGame, Empty
 from database import db_store, db_add
 from room import make_room, ServerRoom
 from log_in import login
-from perf_calc import get_data, get_ppv2_leader
+from perf_calc import get_data, get_ppv2_leader, get_top_plays
 
 rooms = dict()
 
@@ -87,7 +87,13 @@ async def interact(sock, path):
 
             await sock.send(head + ' ' + ret_string)
             continue
-            
+
+        if head == 'TOP_PP_PLAYS':
+            ret_string = get_top_plays()
+
+            await sock.send(head + ' ' + ret_string)
+            continue
+        
         game_string = game.rep()
         await sock.send(head + ' ' + new_id + ' ' + game_string)
        
