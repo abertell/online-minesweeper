@@ -1,12 +1,18 @@
 import sqlite3 as sl
 from math import log
 
+a,b,c=(5.553114322536428, 99.48036227829289, -23.426463583437233)
+norm=90
+line=lambda x:a*log(x+b)+c
+base=lambda m,a:line(a)**(m/a)-1
+ecc=lambda w,h:max(w/h,h/w)**.1
+cutoff=lambda m,a,x:.9**(x<a-m)
+dropoff=lambda m,a,x:.15**((a-m-8)/(x-8)-1)
+
 def pp(m,w,h,x):
     if 2 * m > w * h:
         return 0
-    
-    a = w * h
-    return ((4.22*log(106+a)-16.8)**(m/a)-1)*100*(.9)**(x<a-m)*(.15)**((a-m-8)/(x-8)-1)
+    return norm*base(m,w*h)*ecc(w,h)*cutoff(m,w*h,x)*dropoff(m,w*h,x)
 
 database = 'minesweeper.db'
 
