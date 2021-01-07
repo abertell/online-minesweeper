@@ -12,6 +12,7 @@ class Game extends React.Component {
       mines: 0,
       score: 0,
       strs: [],
+	  waitingForRoom: 0,
       user: "user",
       pwd: "",
       id: "roomID",
@@ -34,6 +35,7 @@ class Game extends React.Component {
     this.updateReqMines = this.updateReqMines.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.makeRoom = this.makeRoom.bind(this);
+	this.makeRoomAndWait = this.makeRoomAndWait.bind(this);
   }
 
   request(event) {
@@ -66,6 +68,14 @@ class Game extends React.Component {
     let len = 4;
     let strs = [];
     let i=0;
+	
+	if (newid !== '-' && this.state.waitingForRoom === 1){
+	  this.setState({waitingForRoom: 0});
+	  this.setState({id: newid});
+	  this.state.server.send('JOIN_ROOM|'+this.state.id);
+	  return 0;
+    }
+	
     for (i=0;i<v;i++){
       strs.push([]);
       strs[i].push([s[pre+len*i],s[pre+1+len*i],["DEAD","ALIVE","WON"][Number(s[pre+2+len*i])],s[pre+3+len*i]]);
@@ -177,6 +187,14 @@ class Game extends React.Component {
       this.state.server.send('CREATE_ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
     }
   }
+  
+  makeRoomAndWait(e) {
+    e.preventDefault();
+    if (this.state.server !== null && this.state.server.readyState === 1) {
+      this.state.server.send('CREATE_ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
+	  this.setState({waitingForRoom: 1});
+    }
+  }
 
   renderRow(datarow) {
     return datarow.map((dataitem) => {
@@ -271,7 +289,7 @@ class Game extends React.Component {
           </form>
         </div>
         <div className="new-room">
-          <form onSubmit={this.makeRoom}>
+          <form onSubmit={this.makeRoomAndWait}>
             <label>
               Width:
               <input type="text" value={this.state.reqX} onChange={this.updateReqX} />
