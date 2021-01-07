@@ -160,6 +160,6 @@ def get_top_plays():
     with con:
         request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC LIMIT 20"
         data = list(con.execute(request))
-    data_parse = [[row[0]] + list(map(r_float, row[1:])) for row in data]
+    data_parse = [row[0:4] + list(map(r_float, row[4:])) for row in data]
     
     return str(len(data_parse)) + ' ' + ' '.join(' '.join(map(str, line)) for line in data_parse) 
