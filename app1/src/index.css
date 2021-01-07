@@ -7,67 +7,79 @@ body {
 .square-white {
   background: #cce;
   border: 1px solid #999;
-  float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 30px;
 }
 
 .square-red {
   background: #f00;
   border: 1px solid #999;
-  float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 30px;
 }
 
 .square-grey {
   background: #888;
   border: 1px solid #999;
-  float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 30px;
 }
 
 .square-black {
   background: #000;
   border: 1px solid #999;
-  float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 30px;
+  height: 30px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 30px;
 }
 
 .game {
   position: fixed;
   top: 20px;
   left: 300px;
+}
+
+.game-board {
+  max-width: 65vw;
+  max-height: 45vw;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.game-board > div {
+  white-space: nowrap;
+}
+
+.game-board > div > button {
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 .game-info {
