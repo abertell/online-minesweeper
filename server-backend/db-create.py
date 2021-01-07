@@ -67,3 +67,5 @@ with con:
             pp REAL
         );
     """)
+con.commit()
+con.close()
