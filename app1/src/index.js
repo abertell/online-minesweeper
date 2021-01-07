@@ -114,7 +114,6 @@ class Game extends React.Component {
       score: sc,
       strs: strs,
       alive: stat,
-      newID: newid,
     });
   }
   }
