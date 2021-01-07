@@ -1,20 +1,19 @@
 import sqlite3 as sl
 from math import log
 
-a,b,c=(5.553114322536428, 99.48036227829289, -23.426463583437233)
-norm=90
-line=lambda x:a*log(x+b)+c
-exp=lambda a:log(2,line(a))
-speed=lambda a:(log(log(log(a)))-log(log(log(64))))/2
-ramp=lambda m,a:exp(a)*((m/a)/exp(a))**(1+speed(a))
-base=lambda m,a:line(a)**ramp(m,a)-1
-ecc=lambda w,h:max(w/h,h/w)**.05
-cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
-dropoff=lambda m,a,x:.15**((a-m-8)/(x-8)-1)
-
 def pp(m,w,h,x):
     if 2 * m > w * h:
         return 0
+    a,b,c=(5.553114322536428, 99.48036227829289, -23.426463583437233)
+    norm=90
+    line=lambda x:a*log(x+b)+c
+    exp=lambda a:log(2,line(a))
+    speed=lambda a:(log(log(log(a)))-log(log(log(64))))/2
+    ramp=lambda m,a:exp(a)*((m/a)/exp(a))**(1+speed(a))
+    base=lambda m,a:line(a)**ramp(m,a)-1
+    ecc=lambda w,h:max(w/h,h/w)**.05
+    cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
+    dropoff=lambda m,a,x:.15**((a-m-8)/(x-8)-1)
     return norm*base(m,w*h)*ecc(w,h)*cutoff(m,w*h,x)*dropoff(m,w*h,x)
 
 database = 'minesweeper.db'
