@@ -65,13 +65,13 @@ def perf_calc(user):
 
     pp_all = 0
     with con:
-        request = f"SELECT (WIDTH, HEIGHT, score) FROM GAMES WHERE NAME =? AND (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC"
+        request = f"SELECT (WIDTH, HEIGHT, mines, score) FROM GAMES WHERE NAME =? AND (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC"
         amt = defaultdict(int)
         tracked = 0
-        for w,h,s in con.execute(request,[user]):
-            pp_all += .95 ** tracked * .99 ** amt[(w,h)] * s
+        for w,h,m,s in con.execute(request,[user]):
+            pp_all += .95 ** tracked * .99 ** amt[(w,h,m)] * s
             tracked += 1
-            amt[(w,h)] += 1
+            amt[(w,h,m)] += 1
 
     request = 'UPDATE PERFORMANCE_ALL SET pp = ? WHERE name = ?'
     with con:
