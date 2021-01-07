@@ -1,5 +1,6 @@
 import sqlite3 as sl
 from math import log
+from collections import defaultdict
 
 def pp(m,w,h,x):
     if 2 * m > w * h:
@@ -62,15 +63,15 @@ def perf_calc(user):
         with con:
             con.execute(request,[user])
 
-    with con:
-        request = f"SELECT score FROM GAMES WHERE NAME = ? AND (WIDTH >= 8 AND HEIGHT >= 8)"
-        data = list(map(lambda x: float(x[0]),con.execute(request,[user])))
-        data.sort()
-
     pp_all = 0
-    for v in data:
-        pp_all *= .95
-        pp_all += v
+    with con:
+        request = f"SELECT (WIDTH, HEIGHT, score) FROM GAMES WHERE NAME =? AND (WIDTH >= 8 AND HEIGHT >= 8) ORDER BY score DESC"
+        amt = defaultdict(int)
+        tracked = 0
+        for w,h,s in con.execute(request,[user]):
+            pp_all += .95 ** tracked * .99 ** amt[(w,h)] * s
+            tracked += 1
+            amt[(w,h)] += 1
 
     request = 'UPDATE PERFORMANCE_ALL SET pp = ? WHERE name = ?'
     with con:
