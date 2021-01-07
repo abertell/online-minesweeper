@@ -10,6 +10,12 @@ body {
   left: 20px;
 }
 
+.top-plays {
+  position: fixed;
+  right: 600px;
+  top: 20px;
+}
+
 .user-info {
   position: fixed;
   top: 20px;
