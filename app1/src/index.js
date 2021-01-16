@@ -34,8 +34,7 @@ class Game extends React.Component {
     this.updateReqY = this.updateReqY.bind(this);
     this.updateReqMines = this.updateReqMines.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.makeRoom = this.makeRoom.bind(this);
-	this.makeRoomAndWait = this.makeRoomAndWait.bind(this);
+    this.makeRoomAndWait = this.makeRoomAndWait.bind(this);
   }
 
   request(event) {
