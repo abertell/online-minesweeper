@@ -276,6 +276,7 @@ class Game extends React.Component {
               Room ID: 
               <input type="text" value={this.state.id} onChange={this.updateID} />
             </label>
+            <br></br>
             <input type="submit" value="Submit" />
           </form>
         </div>
