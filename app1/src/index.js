@@ -179,13 +179,6 @@ class Game extends React.Component {
       this.state.server.send('JOIN_ROOM|'+this.state.id);
     }
   }
-
-  makeRoom(e) {
-    e.preventDefault();
-    if (this.state.server !== null && this.state.server.readyState === 1) {
-      this.state.server.send('CREATE_ROOM|'+this.state.reqX+' '+this.state.reqY+' '+this.state.reqMines);
-    }
-  }
   
   makeRoomAndWait(e) {
     e.preventDefault();
@@ -288,7 +281,7 @@ class Game extends React.Component {
           </form>
         </div>
         <div className="new-room">
-          <form onSubmit={this.makeRoom}>
+          <form onSubmit={this.makeRoomAndWait}>
             <label>
               Width:
               <input type="text" value={this.state.reqX} onChange={this.updateReqX} />
@@ -303,13 +296,10 @@ class Game extends React.Component {
               Mines:
               <input type="text" value={this.state.reqMines} onChange={this.updateReqMines} />
             </label>
-            <input type="submit" value="Create" />
-	      </form>
-			<form onSubmit={this.makeRoomAndWait}>
             <input type="submit" value="Create and Join" />
           </form>
           <br></br>
-          Room ID: {this.state.newID}
+          Stats page: https://www.minesweeperme.me/board/
         </div>
         <div className="top-players">
           <h2>Player Rankings</h2>
