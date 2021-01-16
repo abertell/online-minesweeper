@@ -295,10 +295,11 @@ class Game extends React.Component {
               Mines:
               <input type="text" value={this.state.reqMines} onChange={this.updateReqMines} />
             </label>
+            <br></br>
             <input type="submit" value="Create and Join" />
           </form>
           <br></br>
-          Stats page: https://www.minesweeperme.me/board/
+          <a href="https://www.minesweeperme.me/board/">Stats Page</a>
         </div>
         <div className="top-players">
           <h2>Player Rankings</h2>
