@@ -25,7 +25,7 @@ class Game:
             if 0 <= xx < self.height and 0 <= yy < self.width and self.flags[xx][yy]:
                 seen += 1
 
-        print('CHORD',x,y,want,seen,seen2)
+        print('CHORD',x,y,want,seen)
         
         if want == seen:
             for d in range(8):
@@ -44,7 +44,7 @@ class Game:
                 if self.rev[xx][yy] == -1:
                     seen += 1
 
-        print('FLAG_CHORD',x,y,want,seen,seen2)
+        print('FLAG_CHORD',x,y,want,seen)
         
         if want == seen:
             for d in range(8):
