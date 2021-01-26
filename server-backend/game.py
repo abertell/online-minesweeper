@@ -50,7 +50,7 @@ class Game:
             for d in range(8):
                 xx = x + Game.dX[d]
                 yy = y + Game.dY[d]
-                if 0 <= xx < self.height and 0 <= yy < self.width and not self.flags[xx][yy]:
+                if 0 <= xx < self.height and 0 <= yy < self.width and self.rev[xx][yy] == -1 and not self.flags[xx][yy]:
                     self.flag(xx,yy)
                     
     def click(self, x, y):
