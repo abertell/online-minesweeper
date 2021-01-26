@@ -21,13 +21,17 @@ class Game:
         
         want = self.rev[x][y]
         seen = 0
+        seen2 = 0
         for d in range(8):
             xx = x + Game.dX[d]
             yy = y + Game.dY[d]
-            if 0 <= xx < self.height and 0 <= yy < self.width and self.flags[xx][yy]:
-                seen += 1
+            if 0 <= xx < self.height and 0 <= yy < self.width:
+                if self.flags[xx][yy]:
+                    seen += 1
+                if self.rev[x][y] == -1:
+                    seen2 += 1
 
-        print('CHORD',x,y,want,seen)
+        print('CHORD',x,y,want,seen,seen2)
         
         if want == seen:
             for d in range(8):
@@ -35,6 +39,12 @@ class Game:
                 yy = y + Game.dY[d]
                 if 0 <= xx < self.height and 0 <= yy < self.width and not self.flags[xx][yy]:
                     out += self.reveal(xx,yy)
+        elif want == seen2:
+            for d in range(8):
+                xx = x + Game.dX[d]
+                yy = y + Game.dY[d]
+                if 0 <= xx < self.height and 0 <= yy < self.width and not self.flags[xx][yy]:
+                    out += self.flag(xx,yy)
 
     def click(self, x, y):
         if self.finished:
