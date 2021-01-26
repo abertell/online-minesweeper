@@ -15,7 +15,7 @@ def pp(m,w,h,x):
     ecc=lambda w,h:max(w/h,h/w)**.05
     cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
     dropoff=lambda m,a,x:.5**(log(a)*((a-m-8)/(x-8)-1))
-    large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*30)/100
+    large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*60)/100
     
     return norm*base(m,w*h)*ecc(w,h)*cutoff(m,w*h,x)*dropoff(m,w*h,x)*large(w*h)
 
