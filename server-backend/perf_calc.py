@@ -14,7 +14,7 @@ def pp(m,w,h,x):
     base=lambda m,a:line(a)**ramp(m,a)-1
     ecc=lambda w,h:max(w/h,h/w)**.05
     cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
-    balance=lambda r:1-(.01**(1-2))*(1-r)**2
+    balance=lambda r:max(1-100*(1-r)**2,r*r)
     dropoff=lambda m,a,x:.35**(log(a)*(1/balance((x-8)/(a-m-8))-1))
     large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*75)/100
     
