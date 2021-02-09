@@ -24,7 +24,7 @@ def pp(m,w,h,x):
     norm=90
     line=lambda x:a*log(x+b)+c
     exp=lambda a:log(2,line(a))
-    speed=lambda a:3*log(1+(log(log(log(a)))-log(log(log(256)))))
+    speed=lambda a:2*log(1+(log(log(log(a)))-log(log(log(256)))))
     ramp=lambda m,a:exp(a)*((m/a)/exp(a))**(1+speed(a))
     base=lambda m,a:line(a)**ramp(m,a)-1
     ecc=lambda w,h:max(w/h,h/w)**.05
