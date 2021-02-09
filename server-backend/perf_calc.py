@@ -5,7 +5,7 @@ def pp(m,w,h,x):
     if 2 * m > w * h:
         return 0.0
 
-    a,b,c=5.132659273699201,59.96477197931381,-20.352104580796095
+    a,b,c=4.998657608587074, 47.45736935659079, -19.378946755231084
     norm=90
     line=lambda x:a*log(x+b)+c
     exp=lambda a:log(2,line(a))
@@ -14,8 +14,9 @@ def pp(m,w,h,x):
     base=lambda m,a:line(a)**ramp(m,a)-1
     ecc=lambda w,h:max(w/h,h/w)**.05
     cutoff=lambda m,a,x:(1-.1/(1+log(a/64)))**(x<a-m)
-    balance=lambda r:max(1-100*(1-r)**2,r*r)
-    dropoff=lambda m,a,x:.4**(log(a)*(1/balance((x-8)/(a-m-8))-1))
+    eq=lambda a:.048/(log(log(log(a+153)))**7)
+    balance=lambda r,a:max(1-(100/eq(a))*(1-r)**2,r*r)
+    dropoff=lambda m,a,x:.6**(log(a)*(1/balance((x-8)/(a-m-8),a)-1))
     large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*75)/100
     
     return norm*base(m,w*h)*ecc(w,h)*cutoff(m,w*h,x)*dropoff(m,w*h,x)*large(w*h)
