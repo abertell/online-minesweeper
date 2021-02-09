@@ -110,12 +110,12 @@ def pp_recalc():
     request = 'UPDATE GAMES SET score = ? where id = ?'
 
     con.executemany(request, upd)
-    
-    for user in users:
-        perf_calc(user)
 
     con.commit()
     con.close()
+    
+    for user in users:
+        perf_calc(user)
 
 def r_float(num):
     if num == None:
