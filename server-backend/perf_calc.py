@@ -1,15 +1,30 @@
 import sqlite3 as sl
 from math import log
 
+def makeline(a,b,c):
+    v=[2**i for i in [64/a,256/b,720/c]]
+    r=(v[2]-v[1])/(v[1]-v[0])
+    l=-63
+    h=10000
+    while h-l>1e-6:
+        m=(h+l)/2
+        d=(log(720+m)-log(256+m))/(log(256+m)-log(64+m))
+        if d>r:h=m
+        else:l=m
+    b=l
+    a=(v[2]-v[1])/(log(720+b)-log(256+b))
+    c=v[0]-log(64+b)*a
+    return a,b,c
+
 def pp(m,w,h,x):
     if 2 * m > w * h:
         return 0.0
-
-    a,b,c=4.998657608587074, 47.45736935659079, -19.378946755231084
+    #a,b,c=makeline(30,80,190)
+    a,b,c=5.132659273699201, 59.96477197931381, -20.352104580796095
     norm=90
     line=lambda x:a*log(x+b)+c
     exp=lambda a:log(2,line(a))
-    speed=lambda a:2*log(1+(log(log(log(a)))-log(log(log(256)))))
+    speed=lambda a:3*log(1+(log(log(log(a)))-log(log(log(256)))))
     ramp=lambda m,a:exp(a)*((m/a)/exp(a))**(1+speed(a))
     base=lambda m,a:line(a)**ramp(m,a)-1
     ecc=lambda w,h:max(w/h,h/w)**.05
@@ -17,7 +32,7 @@ def pp(m,w,h,x):
     eq=lambda a:.048/(log(log(log(a+153)))**7)
     balance=lambda r,a:max(1-(100/eq(a))*(1-r)**2,r*r)
     dropoff=lambda m,a,x:.6**(log(a)*(1/balance((x-8)/(a-m-8),a)-1))
-    large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*75)/100
+    large=lambda a:(100-(log(1+log(max(a,1000))/log(1000),2)-1)*80)/100
     
     return norm*base(m,w*h)*ecc(w,h)*cutoff(m,w*h,x)*dropoff(m,w*h,x)*large(w*h)
 
