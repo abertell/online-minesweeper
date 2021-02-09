@@ -19,8 +19,8 @@ def makeline(a,b,c):
 def pp(m,w,h,x):
     if 2 * m > w * h:
         return 0.0
-    #a,b,c=makeline(30.8,80,190)
-    a,b,c=5.022768578847492, 49.70443972328212, -19.553802810340173
+    #a,b,c=makeline(31,80,190)
+    a,b,c=4.998657608587074, 47.45736935659079, -19.378946755231084
     norm=90
     line=lambda x:a*log(x+b)+c
     exp=lambda a:log(2,line(a))
