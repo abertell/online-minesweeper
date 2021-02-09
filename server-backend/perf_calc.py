@@ -102,7 +102,9 @@ def pp_recalc():
     
     for row in data:
         print(row)
-        upd.append((pp(row[4], row[2], row[3], row[6]), row[0]))
+        pp_value = pp(row[4], row[2], row[3], row[6])
+        assert(isinstance(pp_value, float))
+        upd.append((pp_value, row[0]))
         users.add(row[1])
 
     request = 'UPDATE GAMES SET score = ? where id = ?'
