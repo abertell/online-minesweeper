@@ -3,7 +3,7 @@ from math import log
 
 def pp(m,w,h,x):
     if 2 * m > w * h:
-        return 0
+        return 0.0
 
     a,b,c=5.132659273699201,59.96477197931381,-20.352104580796095
     norm=90
