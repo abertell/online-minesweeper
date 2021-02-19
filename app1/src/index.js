@@ -250,8 +250,7 @@ class Game extends React.Component {
           Score: {this.state.score}
           <br></br>
           Mines left: {this.state.mines}
-        </div>
-        <div className="leaderboard">
+          <br></br>
           <h2>Leaderboard</h2>
           {this.renderLeader(this.state.strs)}
         </div>
