@@ -279,8 +279,7 @@ class Game extends React.Component {
             <br></br>
             <input type="submit" value="Submit" />
           </form>
-        </div>
-        <div className="new-room">
+          <br></br>
           <form onSubmit={this.makeRoomAndWait}>
             <label>
               Width:
@@ -301,8 +300,7 @@ class Game extends React.Component {
           </form>
           <br></br>
           <a href="https://www.minesweeperme.me/board/">Stats Page</a>
-        </div>
-        <div className="top-players">
+          <br></br>
           <h2>Player Rankings</h2>
           {this.renderTop(this.state.top)}
         </div>
