@@ -99,15 +99,3 @@ body {
   top: 20px;
   right: 10px;
 }
-
-.new-room {
-  position: fixed;
-  top: 150px;
-  right: 30px;
-}
-
-.top-players {
-  position: fixed;
-  top: 300px;
-  right: 60px;
-}
