@@ -68,11 +68,11 @@ class Game extends React.Component {
     let strs = [];
     let i=0;
 	
-	if (newid !== '-' && this.state.waitingForRoom === 1){
-	  this.setState({waitingForRoom: 0});
-	  this.setState({id: newid});
-	  this.state.server.send('JOIN_ROOM|'+this.state.id);
-	  return 0;
+    if (newid !== '-' && this.state.waitingForRoom === 1){
+      this.setState({waitingForRoom: 0});
+      this.setState({id: newid});
+      this.state.server.send('JOIN_ROOM|'+this.state.id);
+      return 0;
     }
 	
     for (i=0;i<v;i++){
