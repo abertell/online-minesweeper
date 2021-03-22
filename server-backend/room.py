@@ -9,7 +9,7 @@ def make_room(width, height, mines):
     room_id = ''
     while room_id in used_ids:
         room_id = ''
-        for i in range(3):
+        for i in range(4):
             room_id += random.choice(CHARS)
 
     return (room_id, ServerRoom(width, height, mines))
