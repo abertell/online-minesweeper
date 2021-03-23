@@ -16,7 +16,7 @@ click_queue = deque()
 
 import random
 async def bot(board, size_x, size_y, m):
-    global queue
+    global click_queue, flag_queue
     
     # Example Bot
     unknown = []
@@ -30,7 +30,7 @@ async def bot(board, size_x, size_y, m):
 
 async def play():
     global user, pwd, size_x, size_y, mines
-    global disp_game, disp_results, queue, games
+    global disp_game, disp_results, click_queue, flag_queue, games
     server = ""
     async with websockets.connect(server) as server:
         await server.send(f'RENAME|{user} {pwd}')
