@@ -11,10 +11,11 @@ disp_game = False
 disp_results = True
 games = 1
 
-queue = deque()
+flag_queue = deque()
+click_queue = deque()
 
 import random
-async def bot(board, x, y, m):
+async def bot(board, size_x, size_y, m):
     global queue
     
     # Example Bot
@@ -25,7 +26,7 @@ async def bot(board, x, y, m):
                 unknown.append((x,y))
     move = random.choice(unknown)
 
-    queue.append(move)
+    click_queue.append(move)
 
 async def play():
     global user, pwd, size_x, size_y, mines
@@ -55,9 +56,13 @@ async def play():
                         print(' '.join(i))
                     print()
                 await bot(board, x, y, m)
-                while queue:
-                    x, y = queue.popleft()
-                    await server.send(f'MOVE|{x} {y}')
+                while click_queue:
+                    x, y = click_queue.popleft()
+                    await server.send(f'MOVE|{y} {x}')
+                    data = await server.recv()
+                while flag_queue:
+                    x, y = flag_queue.popleft()
+                    await server.send(f'FLAG|{y} {x}')
                     data = await server.recv()
                 _, _, x, y, m, sc, stat, lb_len, *rest = data.split()
                 x, y, m = map(int,(x, y, m))
