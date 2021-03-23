@@ -2,7 +2,7 @@ import asyncio, websockets
 from collections import deque
 
 # Modifiable parameters
-user = "BOT|example_name"
+user = "BOT[example_name]"
 pwd = "example_pwd"
 size_x = 30
 size_y = 24
