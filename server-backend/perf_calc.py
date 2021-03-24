@@ -168,7 +168,7 @@ def get_ppv2_leader():
     con = sl.connect(database)
 
     table = 'PERFORMANCE_ALL'
-    request = f"SELECT name, pp FROM {table} WHERE (SUBSTRING(name, 1, 3) != 'BOT') ORDER BY pp DESC LIMIT 20"
+    request = f"SELECT name, pp FROM {table} WHERE (SUBSTR(name, 1, 3) != 'BOT') ORDER BY pp DESC LIMIT 20"
     data = con.execute(request)
 
     data_parse = [name + ' ' + r_float(pp) for name, pp in data]
@@ -179,7 +179,7 @@ def get_top_plays():
     con = sl.connect(database)
     
     with con:
-        request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE ((WIDTH <= 1000 AND HEIGHT <= 1000) AND (WIDTH >= 8 AND HEIGHT >= 8) AND (SUBSTRING(name, 1, 3) != 'BOT')) ORDER BY score DESC LIMIT 20"
+        request = "SELECT name, width, height, mines, score, remain FROM GAMES WHERE ((WIDTH <= 1000 AND HEIGHT <= 1000) AND (WIDTH >= 8 AND HEIGHT >= 8) AND (SUBSTR(name, 1, 3) != 'BOT')) ORDER BY score DESC LIMIT 20"
         data = list(con.execute(request))
     data_parse = [[row[0], int(row[1]), int(row[2]), int(row[3]), r_float(row[4]), int(row[5])] for row in data]
     
